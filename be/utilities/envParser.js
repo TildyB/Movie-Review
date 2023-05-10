@@ -1,4 +1,5 @@
-import { z } from "zod";
+
+const z = require("zod");
 
 const envSchema = z.object({
     CLIENT_ID: z.string(),
@@ -9,5 +10,5 @@ const envSchema = z.object({
     JWT_SECRET_KEY: z.string()
   });
 
-export const env = envSchema.parse(process.env);
-  
+
+  module.exports.env = envSchema.parse(process.env);

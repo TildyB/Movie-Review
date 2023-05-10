@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from "axios"
-import { z } from "zod"
-import { env } from "../utilities/envParser"
+const axios = require("axios");
+const { z } = require("zod");
+const { env } = require("../utilities/envParser");
 
 const url = "https://oauth2.googleapis.com/token"
 
@@ -12,24 +12,18 @@ const Response = z.object({
     scope: z.string(),
     token_type: z.literal("Bearer")
 })
-type Response = z.infer<typeof Response>
 
 
-export const getIdToken = async (code: string): Promise<string | null> => {
-    console.log("code",code)
-    console.log("env.CLIENT_ID",env.CLIENT_ID)
-    console.log("env.CLIENT_SECRET",env.CLIENT_SECRET)
-    console.log("env.REDIRECT_URI",env.REDIRECT_URI)
-    
+
+const getIdToken = async (code) => {  
     try {
-        const response: AxiosResponse = await axios.post(url, {
+        const response = await axios.post(url, {
             client_id: env.CLIENT_ID,
             client_secret: env.CLIENT_SECRET,
             redirect_uri: env.REDIRECT_URI,
             code,
             grant_type: "authorization_code"
         })
-         console.log("response",response);
 
         const result = Response.safeParse(response.data)
         if (result.success === false) {
@@ -38,8 +32,9 @@ export const getIdToken = async (code: string): Promise<string | null> => {
         }
         return result.data.id_token
 
-    } catch (error: any) {
-        console.log(error)
+    } catch (error) {
         return null
     }
 }
+
+module.exports = { getIdToken };

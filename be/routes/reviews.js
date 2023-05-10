@@ -1,10 +1,11 @@
-import express, { Express, Request, Response } from "express"
-import { z } from "zod"
-import { Movie, type RevMovieType } from "../models/movies"
-import { verify } from "../middleWares/verify"
-import { safeParseFc } from "../utilities/safeParseFc"
 
+const express = require("express")
 const router = express.Router()
+const { z } = require("zod");
+const  Movie  = require("../models/movies");
+const { verify } = require("../middleWares/verify");
+
+
 
 const revZodSchema = z.object({
     title: z.string(),
@@ -20,15 +21,11 @@ const revZodSchema = z.object({
         text: z.string(),
     })
 })
-type revZodSchemaType = z.infer<typeof revZodSchema>
-
-const findMovieSchema = z.number()
-const findReviewerSchema = z.string()
 
 
-router.post('/', verify(revZodSchema), async (req: Request, res: Response) => {
-    const result = req.body as revZodSchemaType
-    const movie = await Movie.findOne({ id: result.id }) as RevMovieType | null
+router.post('/', verify(revZodSchema), async (req, res) => {
+    const result = req.body
+    const movie = await Movie.findOne({ id: result.id })
     if (!movie) {
         const newMovie = await Movie.create({
             title: result.title,
@@ -42,7 +39,7 @@ router.post('/', verify(revZodSchema), async (req: Request, res: Response) => {
             reviews: [
                 result.review // ebben a reviewer-t mi adjuk meg a sub kereses alapjan
             ]
-        }) as RevMovieType
+        }) 
         return res.send(newMovie)
     }
 
@@ -50,9 +47,9 @@ router.post('/', verify(revZodSchema), async (req: Request, res: Response) => {
     res.send(updatedMovie)
 })
 
-router.get('/movies', async (req: Request, res: Response) => {
+router.get('/movies', async (req, res) => {
     if (req.query.id) {
-        const id = parseInt(req.query.id as string)
+        const id = parseInt(req.query.id )
         if(!id) return res.sendStatus(400)
 
         const movie = await Movie.findOne({ id })
@@ -62,7 +59,7 @@ router.get('/movies', async (req: Request, res: Response) => {
     res.send([])
 })
 
-router.get('/reviewer', async (req: Request, res: Response) => {
+router.get('/reviewer', async (req, res) => {
     if (req.query.name) {
         const name = req.query.name
         // User.find({ username: {$regex : "^" + req.params.username}});
@@ -74,4 +71,4 @@ router.get('/reviewer', async (req: Request, res: Response) => {
 })
 
 
-export default router
+module.exports = router

@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-import { Schema , InferSchemaType} from "mongoose";
+
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const revMovieSchema = new Schema({
     title: String,
@@ -19,5 +20,4 @@ const revMovieSchema = new Schema({
     ]
 })
 
-export type RevMovieType = InferSchemaType<typeof revMovieSchema>
-export const Movie = mongoose.model('Review', revMovieSchema)
+module.exports = mongoose.model('Review', revMovieSchema);
