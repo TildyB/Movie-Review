@@ -5,7 +5,7 @@
   "main": "start.js",
   "scripts": {
     "test": "jest",
-    "build": "npx tsc",
+    "build": "vite build",
     "start": "node dist/start.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/start.js\""
   },
