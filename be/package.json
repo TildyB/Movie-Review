@@ -5,6 +5,7 @@
   "main": "start.js",
   "scripts": {
     "test": "jest",
+    "build": "vite build",
     "start": "node api/index.js"
   },
   "keywords": [],
