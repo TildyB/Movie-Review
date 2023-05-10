@@ -1,0 +1,2 @@
+1 movienak lehet tobb review-ja
+1 usernek lehet tobb movieja
