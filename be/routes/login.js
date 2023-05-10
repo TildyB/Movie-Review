@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { verify } = require("../middleWares/verify");
 const { safeParseFc } = require("../utilities/safeParseFc");
 const { z } = require("zod");
-const { getIdToken } = require("../api/google");
+const { getIdToken } = require("../token/google");
 const  User = require("../models/user");
 const { env } = require("../utilities/envParser");
 

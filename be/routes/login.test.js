@@ -2,7 +2,7 @@ import app from "../app";
 import supertest from "supertest";
 import dotenv from "dotenv";
 jest.mock("../api/google");
-import { getIdToken } from "../api/google";
+import { getIdToken } from "../token/google";
 
 dotenv.config();
 // dotenv.config({
